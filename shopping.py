@@ -162,7 +162,7 @@ def evaluate(labels, predictions):
     actual negative labels that were accurately identified.
     """
     
-    positiveLabel, negativeLabel, correctPositive, correctNegative = 0
+    positiveLabel, negativeLabel, correctPositive, correctNegative = 0, 0, 0, 0
 
     # Counting the positive & negative labels, and the amount of correct 
     # predictions
