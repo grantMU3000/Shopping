@@ -5,7 +5,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 
 TEST_SIZE = 0.4
-
+class MyCustomError(Exception):
+    """A custom exception raised for specific error conditions."""
+    pass
 
 def main():
 
@@ -14,7 +16,7 @@ def main():
         sys.exit("Usage: python shopping.py data")
 
     # Load data from spreadsheet and split into train and test sets
-    evidence, labels = load_data(sys.argv[1])
+    evidence, labels = load_data("shopping.csv")
     X_train, X_test, y_train, y_test = train_test_split(
         evidence, labels, test_size=TEST_SIZE
     )
@@ -59,6 +61,9 @@ def load_data(filename):
     labels should be the corresponding list of labels, where each label
     is 1 if Revenue is true, and 0 otherwise.
     """
+    checkFile = checkValidFile(filename)
+    if checkFile != "":
+       raise MyCustomError(checkFile)
 
     months = {"Jan": 0, "Feb": 1, "Mar": 2, "Apr": 3, "May": 4, "June": 5, 
               "Jul": 6, "Aug": 7, "Sep": 8, "Oct": 9, "Nov": 10, "Dec": 11} 
@@ -103,6 +108,36 @@ def load_data(filename):
         
     return (evidenceList, labels)
 
+def checkValidFile(filename) -> str:
+    """
+    This method will essentially check if the given CSV file is valid for
+    training based on shopping data. If the file has all matching columns, then
+    the file is valid, and True is returned. Otherwise, False is returned.
+    """
+    columns = ['Administrative', 'Administrative_Duration', 'Informational', 
+                'Informational_Duration', 'ProductRelated', 
+                'ProductRelated_Duration', 'BounceRates', 'ExitRates', 
+                'PageValues', 'SpecialDay', 'Month', 'OperatingSystems', 
+                'Browser', 'Region', 'TrafficType', 'VisitorType', 'Weekend',
+                'Revenue']
+
+    with open(filename, newline='') as csvfile:
+        reader = csv.reader(csvfile)
+
+        # Loop goes through the top element in the reader, and checks if the 
+        # columns are valid
+        for row in reader:
+            if len(row) != 18:
+                return f"File has wrong column length: {len(row)} (Should be 18)"
+            
+            for i in range(18):
+                if columns[i] != row[i]:
+                    return f"File has incorrect column name {row[i]} (Should be {columns[i]})"
+
+            break
+
+        return ""
+
 def checkReturningVisitor(visitType) -> int:
     """
     Simple helper method that checks if the user is returning to the website, 
@@ -140,10 +175,10 @@ def train_model(evidence, labels):
     fitted k-nearest neighbor model (k=1) trained on the data.
     """
 
-    neighbors = KNeighborsClassifier(n_neighbors = 1)
-    neighbors.fit(evidence, labels)
+    model = KNeighborsClassifier(n_neighbors = 1)
+    model.fit(evidence, labels)
     
-    return neighbors
+    return model
 
 
 def evaluate(labels, predictions):
