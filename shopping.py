@@ -218,5 +218,14 @@ def evaluate(labels, predictions):
     return (sensitivity, specificity)
 
 
+def splitTrainTest(evidence, labels, testSize):
+    """
+    Simple method that returns the data split into a training dataset and a 
+    test dataset.
+    """
+
+    return train_test_split(evidence, labels, test_size=testSize)
+
+
 if __name__ == "__main__":
     main()
