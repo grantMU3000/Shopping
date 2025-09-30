@@ -14,4 +14,58 @@ ALLOWED_EXTENSIONS = {'csv'}
 # Ensure upload folder exists by ensuring the Parent folders are in the path, and creating the directory
 Path(app.config['UPLOAD_FOLDER']).mkdir(parents=True, exist_ok=True)
 
+# Points to my CSV file in a safe way (In a location that's reliable & won't change)
+DEFAULT_CSV_PATH = Path(app.root_path) / 'shopping.csv'
 
+# Global state. 
+# Model: Stores the trained model. 
+# Metrics: Stores evaluation results. 
+# CSV_Source: Where the data came from
+MODEL_STATE = {
+    'model': None,
+    'metrics': None,
+    'csv_source': None
+}
+
+def allowedFile(filename) -> bool:
+    # Checking if the file is a CSV file
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# Segment for the home page. Index function is associated with the root URL in Flask
+@app.route('/', methods='GET')
+def index():
+    return render_template('index.html', metrics=MODEL_STATE['metrics'], csv_source=MODEL_STATE['csv_source'])
+
+# The user Completes the training form, so this is ran
+@app.route('/train', method='POST')
+def train():
+    choice = request.form.get('data_source')
+
+
+    # For determining the CSV path
+    csvPath = None
+    tempPath = None
+
+    try:
+        if choice == 'default':
+            csv_path = DEFAULT_CSV_PATH
+            if not csv_path.exists():
+                # Message for the user categorized as an error
+                flash('Default CSV not found', 'error')
+                return redirect(url_for('index'))
+
+        elif choice == 'upload':
+            if 'file' not in request.files:
+                flash('No file part in the request.', 'error')
+                return redirect(url_for('index'))
+
+    except Exception as e:
+        flash(f'Error during training: {e}')
+    
+    finally:
+        # Removing the uploaded file from the temporary path after training
+        if tempPath and Path(tempPath).exists():
+            try:
+                Path(tempPath).unlink()
+            except Exception:
+                pass
