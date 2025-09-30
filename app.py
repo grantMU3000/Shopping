@@ -48,7 +48,7 @@ def train():
 
     try:
         if choice == 'default':
-            csv_path = DEFAULT_CSV_PATH
+            csvPath = DEFAULT_CSV_PATH
             if not csv_path.exists():
                 # Message for the user categorized as an error
                 flash('Default CSV not found', 'error')
@@ -58,6 +58,33 @@ def train():
             if 'file' not in request.files:
                 flash('No file part in the request.', 'error')
                 return redirect(url_for('index'))
+            
+            file = request.files['file']
+            if file.filename == '':
+                flash('No file selected.', 'error')
+                return redirect(url_for('index'))
+            
+            # File is valid
+            if file and allowedFile(file.filename):
+                filename = secure_filename(file.filename)
+                tempPath = Path(app.config['UPLOAD_FOLDER']) / filename  # Append the filename to the upload folder
+                file.save(tempPath)
+                csvPath = tempPath
+            else:
+                flash('Invalid file type. Please upload .csv files only.', 'error')
+                return redirect(url_for('index'))
+            
+        else:
+            flash('Invalid file type. Please upload a .csv file.', 'error')
+            return redirect(url_for('index'))
+        
+        # Load data from spreadsheet and split into train and test sets
+        evidence, labels = load_data(str(csvPath))
+        X_train, X_test, y_train, y_test = splitTrainTest(evidence, labels)
+
+        model = train_model(X_train, y_train)
+        predictions = model.predict(X_test)
+        sensitivity, specificity = evaluate(y_test, predictions)
 
     except Exception as e:
         flash(f'Error during training: {e}')

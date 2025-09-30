@@ -9,6 +9,7 @@ class MyCustomError(Exception):
     """A custom exception raised for specific error conditions."""
     pass
 
+'''
 def main():
 
     # Check command-line arguments
@@ -31,7 +32,7 @@ def main():
     print(f"Incorrect: {(y_test != predictions).sum()}")
     print(f"True Positive Rate: {100 * sensitivity:.2f}%")
     print(f"True Negative Rate: {100 * specificity:.2f}%")
-
+'''
 
 def load_data(filename):
     """
@@ -218,13 +219,13 @@ def evaluate(labels, predictions):
     return (sensitivity, specificity)
 
 
-def splitTrainTest(evidence, labels, testSize):
+def splitTrainTest(evidence, labels, testSize=TEST_SIZE):
     """
     Simple method that returns the data split into a training dataset and a 
     test dataset.
     """
 
-    return train_test_split(evidence, labels, test_size=testSize)
+    return train_test_split(evidence, labels, test_size=testSize, random_state = 42)
 
 
 if __name__ == "__main__":
