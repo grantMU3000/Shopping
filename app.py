@@ -86,6 +86,8 @@ def train():
         predictions = model.predict(X_test)
         sensitivity, specificity = evaluate(y_test, predictions)
 
+        
+
     except Exception as e:
         flash(f'Error during training: {e}')
     
