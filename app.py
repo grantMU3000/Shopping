@@ -32,12 +32,13 @@ def allowedFile(filename) -> bool:
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Segment for the home page. Index function is associated with the root URL in Flask
-@app.route('/', methods='GET')
+# @app.route('/', methods='GET')
+@app.route('/', methods=["POST","GET"])
 def index():
-    return render_template('index.html', metrics=MODEL_STATE['metrics'], csv_source=MODEL_STATE['csv_source'])
-
+    # return render_template('index.html', metrics=MODEL_STATE['metrics'], csv_source=MODEL_STATE['csv_source'])
+    return render_template('index.html')
 # The user Completes the training form, so this is ran
-@app.route('/train', method='POST')
+@app.route('/train', methods=['POST'])
 def train():
     choice = request.form.get('data_source')
 
@@ -108,7 +109,7 @@ def train():
             except Exception:
                 pass
 
-@app.route('/results', method=['GET'])
+@app.route('/results', methods=['GET'])
 def results():
     if not MODEL_STATE['metrics']:
         flash('Metrics unavailable. Please train a model first.', 'info')
@@ -116,4 +117,5 @@ def results():
     return render_template('results.html', metrics=MODEL_STATE['metrics'], csv_source=MODEL_STATE['csv_source'])
 
 if __name__ == '__main__':
+    # Starts Flask's built-in development server, and enables auto-reload on code shanges
     app.run(debug=True)
