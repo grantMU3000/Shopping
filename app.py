@@ -86,7 +86,16 @@ def train():
         predictions = model.predict(X_test)
         sensitivity, specificity = evaluate(y_test, predictions)
 
-        
+        #Saving the model
+        MODEL_STATE['model'] = model
+        MODEL_STATE['metrics'] = {
+            'sensitivity': round(sensitivity, 4),
+            'specificity': round(specificity, 4)
+        }
+        MODEL_STATE['csv_source'] = 'Default CSV' if choice == 'default' else f'Uploadedl {csvPath.name}'
+
+        flash('Model successfully trained!', 'success')
+        return redirect(url_for('results'))
 
     except Exception as e:
         flash(f'Error during training: {e}')
@@ -98,3 +107,13 @@ def train():
                 Path(tempPath).unlink()
             except Exception:
                 pass
+
+@app.route('/results', method=['GET'])
+def results():
+    if not MODEL_STATE['metrics']:
+        flash('Metrics unavailable. Please train a model first.', 'info')
+        return redirect(url_for('index'))
+    return render_template('results.html', metrics=MODEL_STATE['metrics'], csv_source=MODEL_STATE['csv_source'])
+
+if __name__ == '__main__':
+    app.run(debug=True)
