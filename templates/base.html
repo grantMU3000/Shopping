@@ -6,6 +6,7 @@
     <title>Train a Shopping Model</title>
 </head>
 <body>
+    {# Checking for messages to inform the user about events#}
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <div>
@@ -15,5 +16,11 @@
                     </div>
                 {% endfor %}
             </div>
+        {% endif %}
+    {% endwith %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
 </body>
 </html>
