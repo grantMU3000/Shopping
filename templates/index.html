@@ -23,4 +23,15 @@
 
     <hr /> <!-- Thematic break !-->
 
+    {% if metrics %}
+        <h2>Last Results</h2>
+        <p><b>Source:</b> {{ csv_source }}</p>
+        <ul>
+            <li>Sensitivity: {{metrics.sensitivity}}</li>
+            <li>Specificity: {{metrics.specificity}}</li>
+        </ul>
+        <a href="{{ url_for('results') }}">View details</a>
+    {% endif %}
+
+    {% endif %}
 {% endblock %}
