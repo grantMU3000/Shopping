@@ -35,8 +35,7 @@ def allowedFile(filename) -> bool:
 # @app.route('/', methods='GET')
 @app.route('/', methods=["POST","GET"])
 def index():
-    # return render_template('index.html', metrics=MODEL_STATE['metrics'], csv_source=MODEL_STATE['csv_source'])
-    return render_template('index.html')
+    return render_template('index.html', metrics=MODEL_STATE['metrics'], csv_source=MODEL_STATE['csv_source'])
 # The user Completes the training form, so this is ran
 @app.route('/train', methods=['POST'])
 def train():
@@ -50,7 +49,7 @@ def train():
     try:
         if choice == 'default':
             csvPath = DEFAULT_CSV_PATH
-            if not csv_path.exists():
+            if not csvPath.exists():
                 # Message for the user categorized as an error
                 flash('Default CSV not found', 'error')
                 return redirect(url_for('index'))
