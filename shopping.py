@@ -225,8 +225,7 @@ def splitTrainTest(evidence, labels, testSize=TEST_SIZE):
     test dataset.
     """
 
-    return train_test_split(evidence, labels, test_size=testSize, random_state = 42)
+    return train_test_split(evidence, labels, test_size=testSize)
 
 
-if __name__ == "__main__":
-    main()
+

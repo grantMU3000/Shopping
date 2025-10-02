@@ -89,8 +89,11 @@ def train():
         #Saving the model
         MODEL_STATE['model'] = model
         MODEL_STATE['metrics'] = {
-            'sensitivity': round(sensitivity, 4),
-            'specificity': round(specificity, 4)
+            'totalEntries': len(evidence),
+            'correct': (y_test == predictions).sum(),
+            'incorrect': (y_test != predictions).sum(),
+            'sensitivity': round(sensitivity * 100, 2),
+            'specificity': round(specificity * 100, 2)
         }
         MODEL_STATE['csv_source'] = 'Default CSV' if choice == 'default' else f'Uploadedl {csvPath.name}'
 

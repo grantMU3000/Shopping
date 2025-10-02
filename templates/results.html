@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Evaluation Results</h1>
+    <p><b>Data Source:</b> {{ csv_source }}</p>
+    <ul>
+        <li>Total data Elements: {{metrics.totalEntries}}</li>
+        <li>Correct predictions: {{metrics.correct}}</li>
+        <li>Inorrect predictions: {{metrics.incorrect}}</li>
+        <li>Sensitivity: {{metrics.sensitivity}}%</li>
+        <li>Specificity: {{metrics.specificity}}%</li>
+    </ul>
+    <p><a href="{{ url_for('index')}}">&larr;Back</a></p>
+{% endblock %}

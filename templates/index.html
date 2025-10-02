@@ -27,11 +27,19 @@
         <h2>Last Results</h2>
         <p><b>Source:</b> {{ csv_source }}</p>
         <ul>
-            <li>Sensitivity: {{metrics.sensitivity}}</li>
-            <li>Specificity: {{metrics.specificity}}</li>
+            <li>Sensitivity: {{metrics.sensitivity}}%</li>
+            <li>Specificity: {{metrics.specificity}}%</li>
         </ul>
-        <a href="{{ url_for('results') }}">View details</a>
+        <a href="{{ url_for('results') }}">View Full details</a>
     {% endif %}
 
-    {% endif %}
+    <script>
+        const radios = document.querySelectorAll('input[name="data_source"]');
+        const fileInput = document.getElementById('file');
+        radios.forEach(r => {
+            r.addEventListener('change', () => {
+                fileInput.disabled = (r.value !== 'upload' && r.checked);
+            });
+        });
+    </script>
 {% endblock %}
