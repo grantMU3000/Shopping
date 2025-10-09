@@ -70,6 +70,7 @@ Notes:
 - shopping.py — Data loading, validation, preprocessing, model train/predict.
 - templates/ — HTML templates.
 - requirements.txt — Python dependencies.
+- generate_test_csv.py - Generates CSV file that's a dataset full of users. 
 - README.md — You’re here.
 
 ## Getting Started (Local)
@@ -124,6 +125,7 @@ Store secrets outside version control. On PythonAnywhere, set environment variab
 
 - From the home page, choose your data source:
   - Upload a CSV file in the Shopping.csv format.
+    - If you want to generate files, run the generate_test_csv.py file, and upload its output file.
 - Submit to validate and process the file.
 - If valid, the app will train/evaluate or run predictions and render results.
 - If invalid, you’ll see a clear error message describing what to fix.
@@ -174,8 +176,8 @@ pytest -q
 
 ## Screenshots
 
-- Home/Upload page: 
-- Results page: TODO add screenshot
+- Home/Upload page: <img src="images/Home.png" alt="Image of Home Page">
+- Results page: <img src="images/Results.png" alt="Image of Results Page">
 
 ## Acknowledgments
 
