@@ -9,7 +9,7 @@ Production-grade implementation of Harvard’s CS50 AI Shopping project. This ap
 
 - Project: MVP Done
 - Deployment: Live on PythonAnywhere
-- Stack: Python, Flask, scikit-learn, Pandas, HTML/CSS/JS
+- Stack: Python, Flask, scikit-learn, Pandas, HTML
 
 ## Overview
 
@@ -67,13 +67,10 @@ Notes:
 ## Project Structure (high-level)
 
 - app.py — Flask app (routes, error handlers).
-- ml_core.py — Data loading, validation, preprocessing, model train/predict.
+- shopping.py — Data loading, validation, preprocessing, model train/predict.
 - templates/ — HTML templates.
-- static/ — CSS/JS/assets.
 - requirements.txt — Python dependencies.
 - README.md — You’re here.
-
-> Exact names/locations may vary; see the repository for the authoritative layout.
 
 ## Getting Started (Local)
 
@@ -145,21 +142,8 @@ Store secrets outside version control. On PythonAnywhere, set environment variab
 
 - Task: Binary classification (Revenue).
 - Preprocessing: Numeric casting, category normalization (e.g., Month, VisitorType), boolean parsing.
-- Baseline: Standard classifiers like k-NN or Logistic Regression are commonly used in CS50 AI’s Shopping project.
-- Metrics: Accuracy, sensitivity/recall, specificity (as per the course spec).
-
-> See ml_core.py for the exact classifier and parameters used in this implementation.
-
-## API (if applicable)
-
-If your app exposes API endpoints in addition to the UI:
-
-- POST /predict
-  - Body: CSV file (multipart/form-data).
-  - Response: JSON with validation result and prediction/metrics summary.
-- Errors: Returns 4xx with message on validation failure.
-
-> Adjust based on your app’s actual endpoints.
+- Baseline: k-Nearest Neighbor classifier was used.
+- Metrics: Accuracy, sensitivity/recall, specificity.
 
 ## Deployment (PythonAnywhere)
 
@@ -190,15 +174,8 @@ pytest -q
 
 ## Screenshots
 
-- Home/Upload page: TODO add screenshot
+- Home/Upload page: 
 - Results page: TODO add screenshot
-
-## Roadmap
-
-- Add cross-validation and model comparison.
-- Persist trained model and enable batch predictions.
-- Add richer visualizations for metrics and feature distributions.
-- Improve client-side validation and progress indicators.
 
 ## Acknowledgments
 
@@ -206,6 +183,3 @@ pytest -q
 - Deployed with PythonAnywhere.
 - Thanks to open-source libraries used (Flask, scikit-learn, Pandas).
 
-## License
-
-- TODO: Add your license (e.g., MIT).
